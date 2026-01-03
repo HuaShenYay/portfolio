@@ -10,6 +10,7 @@ import * as $api_test from "./routes/api/test.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $portfolio from "./routes/portfolio.tsx";
+import * as $portfolio_slug_ from "./routes/portfolio/[slug].tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -23,6 +24,7 @@ const manifest = {
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/portfolio.tsx": $portfolio,
+    "./routes/portfolio/[slug].tsx": $portfolio_slug_,
   },
   islands: {
     "./islands/Counter.tsx": $Counter,

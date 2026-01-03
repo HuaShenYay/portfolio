@@ -9,6 +9,7 @@ interface Project {
   mainImage?: any;
   description?: string;
   _createdAt: string;
+  slug?: { current: string };
 }
 
 interface PortfolioData {
@@ -23,6 +24,7 @@ export const handler: Handlers<PortfolioData> = {
       // 获取带有 portfolio category 的文章
       const query = `*[_type == "post" && "portfolio" in categories[]->title] | order(_createdAt desc) {
         _id,
+        slug,
         title,
         _createdAt,
         mainImage,
@@ -38,6 +40,7 @@ export const handler: Handlers<PortfolioData> = {
       
       // 转换数据格式
       const formattedProjects = projects.map((post: any) => ({
+        slug: post.slug,
         _id: post._id,
         title: post.title,
         year: new Date(post._createdAt).getFullYear().toString(),
@@ -72,7 +75,8 @@ export default function PortfolioPage({ data }: PageProps<PortfolioData>) {
             const hasImage = !!project.mainImage;
 
             return (
-              <div 
+              <a 
+                href={`/portfolio/${project.slug?.current || project._id}`}
                 key={project._id} 
                 class={`${isLarge ? 'md:col-span-2' : 'md:col-span-1'} group cursor-pointer`}
               >
@@ -111,7 +115,7 @@ export default function PortfolioPage({ data }: PageProps<PortfolioData>) {
                     {project.year}
                   </span>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
