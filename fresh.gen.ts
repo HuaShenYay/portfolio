@@ -7,11 +7,17 @@ import * as $_app from "./routes/_app.tsx";
 import * as $about from "./routes/about.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_test from "./routes/api/test.ts";
+import * as $essay_slug_ from "./routes/essay/[slug].tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $portfolio from "./routes/portfolio.tsx";
 import * as $portfolio_slug_ from "./routes/portfolio/[slug].tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $LiquidGlass from "./islands/LiquidGlass.tsx";
+import * as $LiquidNavGlass from "./islands/LiquidNavGlass.tsx";
+import * as $LiquidNavWebGL from "./islands/LiquidNavWebGL.tsx";
+import * as $Navigation from "./islands/Navigation.tsx";
+import * as $Reveal from "./islands/Reveal.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -21,6 +27,7 @@ const manifest = {
     "./routes/about.tsx": $about,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/test.ts": $api_test,
+    "./routes/essay/[slug].tsx": $essay_slug_,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/portfolio.tsx": $portfolio,
@@ -28,6 +35,11 @@ const manifest = {
   },
   islands: {
     "./islands/Counter.tsx": $Counter,
+    "./islands/LiquidGlass.tsx": $LiquidGlass,
+    "./islands/LiquidNavGlass.tsx": $LiquidNavGlass,
+    "./islands/LiquidNavWebGL.tsx": $LiquidNavWebGL,
+    "./islands/Navigation.tsx": $Navigation,
+    "./islands/Reveal.tsx": $Reveal,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

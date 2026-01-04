@@ -23,6 +23,8 @@
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "@portabletext/react": "npm:@portabletext/react@^6.0.2",
+    "@motionone/dom": "npm:@motionone/dom@10.18.0",
+    "three": "npm:three@0.160.0",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
