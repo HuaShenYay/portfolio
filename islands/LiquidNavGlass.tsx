@@ -14,7 +14,9 @@ type LinkItem = {
   page: Page;
 };
 
-export default function LiquidNavGlass({ currentPage = "things" }: LiquidNavGlassProps) {
+export default function LiquidNavGlass(
+  { currentPage = "things" }: LiquidNavGlassProps,
+) {
   const items: LinkItem[] = useMemo(
     () => [
       { href: "/", label: "Things", page: "things" },
@@ -63,7 +65,9 @@ export default function LiquidNavGlass({ currentPage = "things" }: LiquidNavGlas
   };
 
   useEffect(() => {
-    setActiveIndex(Math.max(0, items.findIndex((it) => it.page === currentPage)));
+    setActiveIndex(
+      Math.max(0, items.findIndex((it) => it.page === currentPage)),
+    );
   }, [currentPage, items]);
 
   useEffect(() => {
@@ -115,7 +119,9 @@ export default function LiquidNavGlass({ currentPage = "things" }: LiquidNavGlas
                 ref={(el) => (linkRefs.current[idx] = el)}
                 onMouseEnter={() => setHoverIndex(idx)}
                 class={`relative px-6 py-2 text-[15px] rounded-full transition-[color,opacity,transform] duration-250 ease-out hover:-translate-y-[0.5px] ${
-                  isCurrent ? "text-black font-semibold" : "text-black/60 hover:text-black"
+                  isCurrent
+                    ? "text-black font-semibold"
+                    : "text-black/60 hover:text-black"
                 }`}
               >
                 {it.label}

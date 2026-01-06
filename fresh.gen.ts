@@ -4,6 +4,7 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $_middleware from "./routes/_middleware.ts";
 import * as $about from "./routes/about.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_test from "./routes/api/test.ts";
@@ -12,6 +13,7 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $portfolio from "./routes/portfolio.tsx";
 import * as $portfolio_slug_ from "./routes/portfolio/[slug].tsx";
+import * as $rights from "./routes/rights.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $LiquidGlass from "./islands/LiquidGlass.tsx";
 import * as $LiquidNavGlass from "./islands/LiquidNavGlass.tsx";
@@ -24,6 +26,7 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/_middleware.ts": $_middleware,
     "./routes/about.tsx": $about,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/test.ts": $api_test,
@@ -32,6 +35,7 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/portfolio.tsx": $portfolio,
     "./routes/portfolio/[slug].tsx": $portfolio_slug_,
+    "./routes/rights.tsx": $rights,
   },
   islands: {
     "./islands/Counter.tsx": $Counter,

@@ -12,7 +12,9 @@ type LinkItem = {
   page: Page;
 };
 
-export default function LiquidNavWebGL({ currentPage = "things" }: LiquidNavWebGLProps) {
+export default function LiquidNavWebGL(
+  { currentPage = "things" }: LiquidNavWebGLProps,
+) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const mountedRef = useRef(false);
@@ -49,7 +51,10 @@ export default function LiquidNavWebGL({ currentPage = "things" }: LiquidNavWebG
         const scene = new THREE.Scene();
         const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-        const webglRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        const webglRenderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
         webglRenderer.setPixelRatio(globalThis.devicePixelRatio || 1);
         // keep renderer local; cleanup handled in inner cleanup
 
@@ -148,7 +153,10 @@ export default function LiquidNavWebGL({ currentPage = "things" }: LiquidNavWebG
             // ignore
           }
 
-          if (webglRenderer.domElement && webglRenderer.domElement.parentNode === host) {
+          if (
+            webglRenderer.domElement &&
+            webglRenderer.domElement.parentNode === host
+          ) {
             host.removeChild(webglRenderer.domElement);
           }
         };
@@ -174,7 +182,9 @@ export default function LiquidNavWebGL({ currentPage = "things" }: LiquidNavWebG
       >
         <div
           ref={canvasHostRef}
-          class={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-300 ${webglOk ? "opacity-80" : "opacity-0"}`}
+          class={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-300 ${
+            webglOk ? "opacity-80" : "opacity-0"
+          }`}
         />
 
         {links.map((link) => {

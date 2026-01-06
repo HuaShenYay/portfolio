@@ -6,8 +6,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.02em; /* 稍微压缩字间距更有设计感 */
   background:
-    radial-gradient(1200px 600px at 50% -200px, rgba(0, 0, 0, 0.04), transparent 60%),
-    radial-gradient(900px 500px at 10% 0px, rgba(0, 0, 0, 0.03), transparent 55%),
+    radial-gradient(
+      1200px 600px at 50% -200px,
+      rgba(0, 0, 0, 0.04),
+      transparent 60%
+    ),
+    radial-gradient(
+    900px 500px at 10% 0px,
+    rgba(0, 0, 0, 0.03),
+    transparent 55%
+  ),
     #fff;
 }
 
@@ -18,7 +26,11 @@ body {
 
 .liquid-glass__highlight {
   background:
-    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.80), transparent 58%),
+    radial-gradient(
+      120% 80% at 50% 0%,
+      rgba(255, 255, 255, 0.80),
+      transparent 58%
+    ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
   opacity: 0.85;
 }
@@ -40,7 +52,11 @@ body {
   inset: 0;
   border-radius: inherit;
   background:
-    radial-gradient(140% 90% at 50% 0%, rgba(255, 255, 255, 0.85), transparent 60%),
+    radial-gradient(
+      140% 90% at 50% 0%,
+      rgba(255, 255, 255, 0.85),
+      transparent 60%
+    ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
   opacity: 0.75;
   pointer-events: none;

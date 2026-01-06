@@ -2,6 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { client } from "../../utils/sanity.ts";
 import Navigation from "../../islands/LiquidNavGlass.tsx";
 import Reveal from "../../islands/Reveal.tsx";
+import Footer from "../../components/Footer.tsx";
 
 interface Block {
   _type: string;
@@ -27,7 +28,8 @@ export const handler: Handlers<EssayData> = {
   async GET(_req, ctx) {
     const { slug } = ctx.params;
     try {
-      const query = `*[_type == "post" && (slug.current == $slug || _id == $slug) && "essay" in categories[]->title][0]{
+      const query =
+        `*[_type == "post" && (slug.current == $slug || _id == $slug) && "essay" in categories[]->title][0]{
         _id,
         title,
         _createdAt,
@@ -43,7 +45,7 @@ export const handler: Handlers<EssayData> = {
       const post = await client.fetch(query, { slug });
 
       if (!post) return ctx.renderNotFound();
-      
+
       return ctx.render({ post });
     } catch (_err) {
       return ctx.renderNotFound();
@@ -60,7 +62,10 @@ function renderBlocks(blocks: Block[] = []) {
 
       if (block.style === "h3") {
         return (
-          <h3 key={index} class="text-[22px] font-bold mt-12 mb-4 tracking-tight text-black">
+          <h3
+            key={index}
+            class="text-[22px] font-bold mt-12 mb-4 tracking-tight text-black"
+          >
             {text}
           </h3>
         );
@@ -82,7 +87,10 @@ function renderBlocks(blocks: Block[] = []) {
       }
 
       return (
-        <p key={index} class="text-[#424245] text-[17px] leading-[1.7] mb-6 tracking-tight">
+        <p
+          key={index}
+          class="text-[#424245] text-[17px] leading-[1.7] mb-6 tracking-tight"
+        >
           {text}
         </p>
       );
@@ -94,7 +102,7 @@ export default function EssayPage({ data }: PageProps<EssayData>) {
   const { post } = data;
 
   return (
-    <div class="min-h-screen bg-white font-sans antialiased text-black pb-32">
+    <div class="min-h-screen bg-white font-sans antialiased text-black pb-8">
       {/* 导航栏保持一致 */}
       <Navigation currentPage="things" />
 
@@ -103,7 +111,11 @@ export default function EssayPage({ data }: PageProps<EssayData>) {
         <Reveal>
           <header class="text-center mb-16">
             <p class="text-[#86868B] text-[14px] font-medium mb-4 uppercase tracking-widest">
-              {new Date(post._createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              {new Date(post._createdAt).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
             </p>
             <h1 class="text-[48px] md:text-[64px] font-bold tracking-tighter leading-[1.1] mb-4">
               {post.title || "Untitled"}
@@ -121,6 +133,8 @@ export default function EssayPage({ data }: PageProps<EssayData>) {
           </article>
         </Reveal>
       </main>
+
+      <Footer />
     </div>
   );
 }

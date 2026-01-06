@@ -13,7 +13,9 @@ type LinkItem = {
   page: Page;
 };
 
-export default function Navigation({ currentPage = "things" }: NavigationProps) {
+export default function Navigation(
+  { currentPage = "things" }: NavigationProps,
+) {
   const items: LinkItem[] = useMemo(
     () => [
       { href: "/", label: "Things", page: "things" },
@@ -68,7 +70,9 @@ export default function Navigation({ currentPage = "things" }: NavigationProps) 
   };
 
   useEffect(() => {
-    setActiveIndex(Math.max(0, items.findIndex((it) => it.page === currentPage)));
+    setActiveIndex(
+      Math.max(0, items.findIndex((it) => it.page === currentPage)),
+    );
   }, [currentPage, items]);
 
   useEffect(() => {
@@ -120,7 +124,9 @@ export default function Navigation({ currentPage = "things" }: NavigationProps) 
               ref={(el) => (linkRefs.current[idx] = el)}
               onMouseEnter={() => setHoverIndex(idx)}
               class={`relative text-[15px] font-medium transition-[color,opacity,transform] duration-250 ease-out hover:-translate-y-[0.5px] ${
-                isCurrent ? "text-black font-semibold" : "text-black/55 hover:text-black"
+                isCurrent
+                  ? "text-black font-semibold"
+                  : "text-black/55 hover:text-black"
               }`}
             >
               <span class="relative">

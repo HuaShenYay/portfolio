@@ -1,6 +1,8 @@
 import { type PageProps } from "$fresh/server.ts";
 
 export default function App({ Component }: PageProps) {
+  const siteUrl = Deno.env.get("SITE_URL") ?? "https://your-domain.com";
+
   return (
     <html>
       <head>
@@ -13,10 +15,11 @@ export default function App({ Component }: PageProps) {
         />
         <meta name="keywords" content="宋子杰,个人作品集,博客,创意设计" />
         <meta name="author" content="宋子杰" />
+        <link rel="canonical" href={siteUrl} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-domain.com/" />
+        <meta property="og:url" content={`${siteUrl}/`} />
         <meta property="og:title" content="宋子杰的个人作品集" />
         <meta
           property="og:description"
@@ -26,7 +29,7 @@ export default function App({ Component }: PageProps) {
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://your-domain.com/" />
+        <meta property="twitter:url" content={`${siteUrl}/`} />
         <meta property="twitter:title" content="宋子杰的个人作品集" />
         <meta
           property="twitter:description"

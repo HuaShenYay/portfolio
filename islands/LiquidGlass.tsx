@@ -33,10 +33,17 @@ function length2(x: number, y: number): number {
   return Math.sqrt(x * x + y * y);
 }
 
-function roundedRectSDF(x: number, y: number, width: number, height: number, radius: number): number {
+function roundedRectSDF(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number,
+): number {
   const qx = Math.abs(x) - width + radius;
   const qy = Math.abs(y) - height + radius;
-  return Math.min(Math.max(qx, qy), 0) + length2(Math.max(qx, 0), Math.max(qy, 0)) - radius;
+  return Math.min(Math.max(qx, qy), 0) +
+    length2(Math.max(qx, 0), Math.max(qy, 0)) - radius;
 }
 
 function texture(x: number, y: number): Vec2 {
@@ -145,7 +152,14 @@ function GlassFilter(
           <stop offset="100%" stopColor="white" stopOpacity="1" />
         </radialGradient>
 
-        <filter id={id} x="-35%" y="-35%" width="170%" height="170%" colorInterpolationFilters="sRGB">
+        <filter
+          id={id}
+          x="-35%"
+          y="-35%"
+          width="170%"
+          height="170%"
+          colorInterpolationFilters="sRGB"
+        >
           <feImage
             x="0"
             y="0"
@@ -167,7 +181,10 @@ function GlassFilter(
           />
 
           <feComponentTransfer in="EDGE_INTENSITY" result="EDGE_MASK">
-            <feFuncA type="discrete" tableValues={`0 ${aberrationIntensity * 0.05} 1`} />
+            <feFuncA
+              type="discrete"
+              tableValues={`0 ${aberrationIntensity * 0.05} 1`}
+            />
           </feComponentTransfer>
 
           <feOffset in="SourceGraphic" dx="0" dy="0" result="CENTER_ORIGINAL" />
@@ -226,18 +243,46 @@ function GlassFilter(
             result="BLUE_CHANNEL"
           />
 
-          <feBlend in="GREEN_CHANNEL" in2="BLUE_CHANNEL" mode="screen" result="GB_COMBINED" />
-          <feBlend in="RED_CHANNEL" in2="GB_COMBINED" mode="screen" result="RGB_COMBINED" />
+          <feBlend
+            in="GREEN_CHANNEL"
+            in2="BLUE_CHANNEL"
+            mode="screen"
+            result="GB_COMBINED"
+          />
+          <feBlend
+            in="RED_CHANNEL"
+            in2="GB_COMBINED"
+            mode="screen"
+            result="RGB_COMBINED"
+          />
 
-          <feGaussianBlur in="RGB_COMBINED" stdDeviation={Math.max(0.1, 0.5 - aberrationIntensity * 0.1)} result="ABERRATED_BLURRED" />
-          <feComposite in="ABERRATED_BLURRED" in2="EDGE_MASK" operator="in" result="EDGE_ABERRATION" />
+          <feGaussianBlur
+            in="RGB_COMBINED"
+            stdDeviation={Math.max(0.1, 0.5 - aberrationIntensity * 0.1)}
+            result="ABERRATED_BLURRED"
+          />
+          <feComposite
+            in="ABERRATED_BLURRED"
+            in2="EDGE_MASK"
+            operator="in"
+            result="EDGE_ABERRATION"
+          />
 
           <feComponentTransfer in="EDGE_MASK" result="INVERTED_MASK">
             <feFuncA type="table" tableValues="1 0" />
           </feComponentTransfer>
-          <feComposite in="CENTER_ORIGINAL" in2="INVERTED_MASK" operator="in" result="CENTER_CLEAN" />
+          <feComposite
+            in="CENTER_ORIGINAL"
+            in2="INVERTED_MASK"
+            operator="in"
+            result="CENTER_CLEAN"
+          />
 
-          <feComposite in="EDGE_ABERRATION" in2="CENTER_CLEAN" operator="over" />
+          <feComposite
+            in="EDGE_ABERRATION"
+            in2="CENTER_CLEAN"
+            operator="over"
+          />
         </filter>
       </defs>
     </svg>
@@ -268,7 +313,10 @@ export default function LiquidGlass({
 
     const update = () => {
       const rect = el.getBoundingClientRect();
-      setSize({ width: Math.max(1, Math.round(rect.width)), height: Math.max(1, Math.round(rect.height)) });
+      setSize({
+        width: Math.max(1, Math.round(rect.width)),
+        height: Math.max(1, Math.round(rect.height)),
+      });
     };
 
     update();
@@ -282,7 +330,11 @@ export default function LiquidGlass({
     const h = Math.max(1, size.height);
 
     try {
-      const gen = new ShaderDisplacementGenerator({ width: w, height: h, fragment: fragmentShaders.liquidGlass });
+      const gen = new ShaderDisplacementGenerator({
+        width: w,
+        height: h,
+        fragment: fragmentShaders.liquidGlass,
+      });
       const url = gen.updateShader();
       gen.destroy();
       setShaderMapUrl(url);
