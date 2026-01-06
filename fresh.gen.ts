@@ -20,6 +20,7 @@ import * as $LiquidGlass from "./islands/LiquidGlass.tsx";
 import * as $LiquidNavGlass from "./islands/LiquidNavGlass.tsx";
 import * as $LiquidNavWebGL from "./islands/LiquidNavWebGL.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
+import * as $PortfolioFilter from "./islands/PortfolioFilter.tsx";
 import * as $Reveal from "./islands/Reveal.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -45,6 +46,7 @@ const manifest = {
     "./islands/LiquidNavGlass.tsx": $LiquidNavGlass,
     "./islands/LiquidNavWebGL.tsx": $LiquidNavWebGL,
     "./islands/Navigation.tsx": $Navigation,
+    "./islands/PortfolioFilter.tsx": $PortfolioFilter,
     "./islands/Reveal.tsx": $Reveal,
   },
   baseUrl: import.meta.url,
