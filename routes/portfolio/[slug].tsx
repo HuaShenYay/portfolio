@@ -26,7 +26,10 @@ interface Article {
   mainImage?: SanityImage;
   description?: string;
   body?: Block[];
-  authorName: string;
+  author?: {
+    name?: string;
+    slug?: { current: string };
+  } | null;
   slug?: { current: string };
 }
 
@@ -80,7 +83,10 @@ export const handler: Handlers<ArticleData> = {
         mainImage,
         description,
         body,
-        "authorName": "Author, Founder of Namedly", 
+        author->{
+          name,
+          slug
+        },
         slug
       }`;
       const article = await client.fetch(query, { slug });
@@ -171,17 +177,17 @@ export default function ArticlePage({ data }: PageProps<ArticleData>) {
         <Reveal>
           <header class="text-center mb-16">
             <p class="text-[#86868B] text-[14px] font-medium mb-4 uppercase tracking-widest">
-              {new Date(article._createdAt).toLocaleDateString("en-US", {
+              {new Date(article._createdAt).toLocaleDateString("zh-CN", {
+                year: "numeric",
                 month: "long",
                 day: "numeric",
-                year: "numeric",
               })}
             </p>
             <h1 class="text-[48px] md:text-[64px] font-bold tracking-tighter leading-[1.1] mb-4">
               {article.title}
             </h1>
             <p class="text-[#86868B] text-[16px] font-medium">
-              {article.authorName}
+              {article.author?.name || "作者"}
             </p>
           </header>
         </Reveal>

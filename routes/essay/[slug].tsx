@@ -23,7 +23,10 @@ interface EssayPost {
   body?: Block[];
   content?: Block[];
   slug?: { current: string };
-  authorName?: string;
+  author?: {
+    name?: string;
+    slug?: { current: string };
+  } | null;
   mainImage?: SanityImage;
   image?: SanityImage;
 }
@@ -82,7 +85,10 @@ export const handler: Handlers<EssayData> = {
         body,
         content,
         slug,
-        "authorName": "Zijie Song",
+        author->{
+          name,
+          slug
+        },
         categories[]->{
           _id,
           title
@@ -186,17 +192,17 @@ export default function EssayPage({ data }: PageProps<EssayData>) {
         <Reveal>
           <header class="text-center mb-16">
             <p class="text-[#86868B] text-[14px] font-medium mb-4 uppercase tracking-widest">
-              {new Date(post._createdAt).toLocaleDateString("en-US", {
+              {new Date(post._createdAt).toLocaleDateString("zh-CN", {
+                year: "numeric",
                 month: "long",
                 day: "numeric",
-                year: "numeric",
               })}
             </p>
             <h1 class="text-[48px] md:text-[64px] font-bold tracking-tighter leading-[1.1] mb-4">
               {post.title || "Untitled"}
             </h1>
             <p class="text-[#86868B] text-[16px] font-medium">
-              {post.authorName || "Zijie Song"}
+              {post.author?.name || "Zijie Song"}
             </p>
           </header>
         </Reveal>

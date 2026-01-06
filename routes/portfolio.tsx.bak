@@ -1,0 +1,346 @@
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { client, urlFor } from "../utils/sanity.ts";
+import Navigation from "../islands/LiquidNavGlass.tsx";
+import Reveal from "../islands/Reveal.tsx";
+import Footer from "../components/Footer.tsx";
+
+interface Project {
+  _id: string;
+  title?: string;
+  section: "literature" | "photograph" | "movie";
+  slug?: { current: string };
+  mainImage?: {
+    _type: "image";
+    asset: { _ref: string; _type: "reference" };
+  };
+}
+
+interface PortfolioData {
+  projects: Project[];
+  currentFilter?: string;
+}
+
+const SECTION_META = {
+  literature: {
+    title: "Literature",
+    kicker: "Writing",
+    description: "詩、小説",
+  },
+  photograph: {
+    title: "Photograph",
+    kicker: "Visual",
+    description: "Photography sets and visual experiments.",
+  },
+  movie: {
+    title: "Movie",
+    kicker: "Motion",
+    description: "Film / motion work, trailers, and edits.",
+  },
+} as const;
+
+export const handler: Handlers<PortfolioData> = {
+  async GET(req, ctx) {
+    try {
+      // 获取查询参数
+      const url = new URL(req.url);
+      const filter = url.searchParams.get("filter") || "all";
+      
+      // 抓取所有项目数据
+      const projects = await client.fetch(`
+        *[_type == "post" && "portfolio" in categories[]->title]{
+          _id,
+          title,
+          _createdAt,
+          mainImage,
+          section,
+          slug,
+          categories[]->{
+            _id,
+            title
+          }
+        }
+      `);
+
+      if (!projects) {
+        return ctx.render({ projects: [], currentFilter: "all" });
+      }
+
+      return ctx.render({ projects, currentFilter: filter });
+    } catch (_err) {
+      return ctx.render({ projects: [], currentFilter: "all" });
+    }
+  },
+};
+
+function renderSection(section: string, items: Project[]) {
+  const meta = SECTION_META[section as keyof typeof SECTION_META];
+  if (!items.length) return null;
+
+  return (
+    <section id={section} class="scroll-mt-32">
+      <div class="flex items-end justify-between gap-8 mb-10">
+        <div>
+          <p class="text-[14px] text-gray-400 font-medium uppercase tracking-widest mb-3">
+            {meta.kicker}
+          </p>
+          <h2 class="text-[28px] md:text-[36px] font-bold tracking-tight">
+            {meta.title}
+          </h2>
+          <p class="text-[#86868B] text-[16px] mt-3 max-w-[70ch]">
+            {meta.description}
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20">
+        {items.map((project, index) => {
+          const isLarge = index % 3 === 0;
+          const mainImage = project.mainImage;
+          const hasImage = !!mainImage;
+
+          return (
+            <a
+              href={`/portfolio/${project.slug?.current || project._id}`}
+              key={project._id}
+              class={`${
+                isLarge ? "md:col-span-2" : "md:col-span-1"
+              } group cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-[2px] active:translate-y-0`}
+            >
+              <div
+                class={`aspect-video rounded-[32px] overflow-hidden mb-6 ring-1 ring-black/5 shadow-[0_10px_30px_-24px_rgba(0,0,0,0.35)] transition-[transform,box-shadow] duration-500 ease-out group-hover:shadow-[0_16px_44px_-30px_rgba(0,0,0,0.40)]
+                  ${
+                    !hasImage
+                      ? "bg-[#F5F5F7] flex flex-col justify-center px-12 md:px-20"
+                      : ""
+                  }`}
+              >
+                  {hasImage ? (
+                    <img
+                      src={urlFor(mainImage).width(isLarge ? 1200 : 600).url()}
+                      class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+                      alt={project.title}
+                    />
+                  ) : (
+                    <div class="max-w-3xl">
+                      <p class="text-[14px] text-gray-400 font-medium mb-4 uppercase tracking-widest">
+                        {section}
+                      </p>
+                      <h3
+                        class={`${
+                          isLarge ? "text-[32px]" : "text-[24px]"
+                        } font-bold leading-tight tracking-tight mb-4 text-black`}
+                      >
+                        {project.title}
+                      </h3>
+                    </div>
+                  )}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    );
+  );
+}
+
+export default function PortfolioPage({ data, currentFilter }: PageProps<PortfolioData> & { currentFilter?: string }) {
+  const { projects = [] } = data || {};
+  const filter = currentFilter || "all";
+
+  return (
+    <div class="min-h-screen bg-white font-sans antialiased text-black">
+      <Navigation currentPage="portfolio" />
+
+      <main id="top" class="max-w-[1100px] mx-auto pt-56 px-8 md:px-16 pb-8">
+        <Reveal>
+          <div class="mb-16">
+            <h1 class="text-[48px] md:text-[64px] font-bold tracking-tighter">
+              Portfolio
+            </h1>
+            <p class="text-[#86868B] text-[18px] mt-6 max-w-[70ch]">
+              Choose your favorite.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.04}>
+          {/* 导航标签 */}
+          <div class="sticky top-20 z-20 mb-16">
+            <div class="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur-3xl border border-white/60 ring-1 ring-black/5 shadow-[0_12px_32px_-24px_rgba(0,0,0,0.25)] px-2 py-2">
+              {["all", "literature", "photograph", "movie"].map((s) => (
+                <a
+                  key={s}
+                  href={`?filter=${s}`}
+                  class={`px-5 py-2 rounded-full text-[14px] font-medium transition-colors hover:bg-black/[0.04] ${
+                    filter === s 
+                      ? "bg-black text-white" 
+                      : "text-black/60 hover:text-black"
+                  }`}
+                >
+                  {s === "all" ? "All" : SECTION_META[s as keyof typeof SECTION_META][s].title}
+                </a>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.06}>
+          {filter === "all" ? (
+            <div class="space-y-28">
+              {["literature", "photograph", "movie"].map((section) => 
+                renderSection(section, projects.filter((p) => p.section === section))
+              )}
+            </div>
+          ) : (
+            renderSection(filter, projects.filter((p) => p.section === filter))
+          )}
+        </Reveal>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+type SanityImage = Record<string, unknown> & {
+  _type: "image";
+  asset: { _ref: string; _type: "reference" };
+};
+
+interface TextChild {
+  text?: string;
+}
+
+interface Block {
+  _type: string;
+  children?: TextChild[];
+}
+
+interface SanityPost {
+  _id: string;
+  slug?: { current: string };
+  title: string;
+  _createdAt: string;
+  mainImage?: SanityImage;
+  body?: Block[];
+  categories?: Array<{ _id: string; title?: string }>;
+}
+
+interface Project {
+  _id: string;
+  title: string;
+  year: string;
+  mainImage?: SanityImage;
+  description?: string;
+  _createdAt: string;
+  slug?: { current: string };
+  section: "literature" | "photograph" | "movie";
+}
+
+interface PortfolioData {
+  projects: Project[];
+}
+
+export const handler: Handlers<PortfolioData> = {
+  async GET(_req, ctx) {
+    try {
+      // 获取查询参数
+      const url = new URL(req.url);
+      const filter = url.searchParams.get("filter") || "all";
+      
+      // 抓取所有项目数据
+      const projects = await client.fetch(`
+        *[_type == "post" && "portfolio" in categories[]->title]{
+        _id,
+        title,
+        _createdAt,
+        mainImage,
+        section,
+        slug,
+        categories[]->{
+          _id,
+          title
+        }
+      }
+      `);
+
+      if (!projects) {
+        return ctx.render({ projects: [] });
+      }
+          ? "literature"
+          : categoryTitles.includes("photograph")
+          ? "photograph"
+          : "movie") as Project["section"]; // fallback movie
+
+        return {
+          slug: post.slug,
+          _id: post._id,
+          title: post.title,
+          year: new Date(post._createdAt).getFullYear().toString(),
+          mainImage: post.mainImage,
+          description: post.body?.find((block) =>
+            block._type === "block"
+          )?.children?.[0]?.text || "",
+          _createdAt: post._createdAt,
+          section,
+        };
+      });
+
+      return ctx.render({ projects: formattedProjects });
+    } catch (err) {
+      console.error("Portfolio fetch error:", err);
+      return ctx.render({ projects: [] });
+    }
+  },
+};
+
+const SECTION_META: Record<
+  Project["section"],
+  { title: string; kicker: string; description: string }
+> = {
+  literature: {
+    title: "Literature",
+    kicker: "Writing",
+    description: "詩、小説",
+  },
+  photograph: {
+    title: "Photograph",
+    kicker: "Visual",
+    description: "Photography sets and visual experiments.",
+  },
+  movie: {
+    title: "Movie",
+    kicker: "Motion",
+    description: "Film / motion work, trailers, and edits.",
+  },
+};
+
+export default function PortfolioPage({ data }: PageProps<PortfolioData>) {
+  const { projects = [] } = data || {};
+
+  return (
+    <div class="min-h-screen bg-white font-sans antialiased text-black">
+      <Navigation currentPage="portfolio" />
+
+      <main id="top" class="max-w-[1100px] mx-auto pt-56 px-8 md:px-16 pb-8">
+        <Reveal>
+          <div class="mb-16">
+            <h1 class="text-[48px] md:text-[64px] font-bold tracking-tighter">
+              Portfolio
+            </h1>
+            <p class="text-[#86868B] text-[18px] mt-6 max-w-[70ch]">
+              Choose your favorite.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.04}>
+          <PortfolioFilter projects={projects} />
+        </Reveal>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
