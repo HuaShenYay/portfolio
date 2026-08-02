@@ -1,10 +1,11 @@
 import Link from "next/link";
-import Button from "@/components/Button";
 
 const contacts = [
-  { label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
-  { label: "GitHub", value: "github.com/username", href: "https://github.com/username" },
-  { label: "Twitter", value: "@username", href: "https://twitter.com/username" },
+  {
+    label: "GitHub",
+    value: "github.com/HuaShenYay",
+    href: "https://github.com/HuaShenYay",
+  },
 ];
 
 export default function ContactPage() {
@@ -17,7 +18,7 @@ export default function ContactPage() {
 
       <div className="mb-4">
         <p className="font-mono text-sm text-[#00FF00] mb-2">
-          ► 欢迎通过以下方式与我联系！
+          ► 如果你想讨论作品、研究或合作，可以先从这个公开入口找到我。
         </p>
         <table className="border-collapse border border-[#00FFFF]">
           <thead>
@@ -48,37 +49,23 @@ export default function ContactPage() {
 
       <div className="rainbow-hr" />
 
-      <section className="my-4">
+      <section className="my-4 guestbook-offline">
         <h2 className="text-[#FFFF00] font-serif font-bold text-xl mb-2">
           ◆ 留言板 ◆
         </h2>
         <div className="rainbow-hr mb-2" />
-        <form className="space-y-3 max-w-md">
-          <div>
-            <label className="block font-mono text-xs text-[#FFFF00] mb-1">► 姓名</label>
-            <input
-              type="text"
-              className="w-full border border-[#00FFFF] bg-[#000066] font-mono text-xs text-[#00FF00] p-2 focus:outline-none focus:border-[#FF00FF]"
-            />
-          </div>
-          <div>
-            <label className="block font-mono text-xs text-[#FFFF00] mb-1">► 邮箱</label>
-            <input
-              type="email"
-              className="w-full border border-[#00FFFF] bg-[#000066] font-mono text-xs text-[#00FF00] p-2 focus:outline-none focus:border-[#FF00FF]"
-            />
-          </div>
-          <div>
-            <label className="block font-mono text-xs text-[#FFFF00] mb-1">► 留言</label>
-            <textarea
-              rows={5}
-              className="w-full border border-[#00FFFF] bg-[#000066] font-mono text-xs text-[#00FF00] p-2 focus:outline-none focus:border-[#FF00FF] resize-y"
-            />
-          </div>
-          <div>
-            <Button type="submit">提交留言</Button>
-          </div>
-        </form>
+        <div className="offline-message">
+          <strong>[ GUESTBOOK OFFLINE ]</strong>
+          <p>留言板暂时没有接入后端。现在提交的内容不会被保存，所以我把表单收了起来。</p>
+          <a
+            className="win95-btn"
+            href="https://github.com/HuaShenYay"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            前往 GitHub
+          </a>
+        </div>
       </section>
 
       <div className="rainbow-hr" />

@@ -1,13 +1,9 @@
 import Link from "next/link";
+import { getWorksByCategory } from "@/lib/data";
 
-const works = [
-  { title: "文学地图", description: "现代文学作品的地理空间可视化。", year: "2024" },
-  { title: "语料镜像", description: "当代文学主题演变研究。", year: "2023" },
-  { title: "声音档案", description: "方言采集与数字化保存项目。", year: "2023" },
-  { title: "编码与解码", description: "数字出版工具的实验性开发。", year: "2022" },
-];
+export default async function DigitalHumanitiesPage() {
+  const works = await getWorksByCategory("digital-humanities");
 
-export default function DigitalHumanitiesPage() {
   return (
     <main className="px-2 py-2">
       <h1 className="text-[#FFFF00] font-serif font-bold text-2xl mb-2">
@@ -15,7 +11,7 @@ export default function DigitalHumanitiesPage() {
       </h1>
       <div className="rainbow-hr mb-2" />
       <p className="font-mono text-sm text-[#00FF00] mb-4">
-        ► 数字技术与人文研究的交叉实践。将计算方法引入人文领域的问题意识，试图在技术与人文之间建立有意义的对话。
+        ► 数字技术与人文研究的交叉实践。我用计算方法重新查看文本与档案，同时保留对数据缺口和方法边界的警惕。
       </p>
 
       <div className="rainbow-hr" />
@@ -31,9 +27,9 @@ export default function DigitalHumanitiesPage() {
           </thead>
           <tbody>
             {works.map((w) => (
-              <tr key={w.title}>
+              <tr key={w._id}>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs">
-                  <Link href="#" className="text-[#00FFFF] underline">► {w.title}</Link>
+                  <Link href={`/digital-humanities/${w.slug.current}`} className="text-[#00FFFF] underline">► {w.title}</Link>
                 </td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.description}</td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.year}</td>

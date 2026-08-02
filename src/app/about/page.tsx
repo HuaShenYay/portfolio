@@ -10,16 +10,15 @@ export default function AboutPage() {
 
       <div className="space-y-3 mb-4">
         <p className="font-mono text-sm text-[#00FF00]">
-          ► 我是一个跨领域创作者，活跃在<b className="text-[#FFFF00]">文学</b>、
-          <b className="text-[#FFFF00]">AIGC影像</b>、
-          <b className="text-[#FFFF00]">网站设计</b>和
-          <b className="text-[#FFFF00]">数字人文</b>四个领域。
+          ► 我不太想只用一种媒介定义自己的工作。我在<b className="text-[#FFFF00]">文字</b>、
+          <b className="text-[#FFFF00]">影像</b>与
+          <b className="text-[#FFFF00]">代码</b>之间移动，也关心它们如何改变我们阅读和理解材料的方式。
         </p>
         <p className="font-mono text-sm text-[#00FF00]">
-          ► 我的工作围绕文字、影像与代码展开，试图在不同媒介之间找到连接。
+          ► 对我来说，这些目录不是彼此隔开的专业标签，而是处理同一个问题的不同入口。
         </p>
         <p className="font-mono text-sm text-[#00FFFF]">
-          ★ 数字工具不只是效率的手段，也可以是思考的方式。★
+          ★ 数字工具不只是快捷方式。它也会暴露材料里的结构、偏差和空白。
         </p>
       </div>
 
@@ -32,13 +31,13 @@ export default function AboutPage() {
         <div className="rainbow-hr mb-2" />
         <div className="space-y-2">
           <p className="font-mono text-xs text-[#00FF00]">
-            ■ 内容优先于形式。一切设计服务于内容，而非相反。
+            ■ 先问材料需要什么，再决定它应该是一篇文章、一段影像，还是一个网页。
           </p>
           <p className="font-mono text-xs text-[#00FF00]">
-            ■ 在文学与代码之间寻找连接。写作与编程都是组织语言的活动。
+            ■ 写作和编程都在设置规则，也都要知道什么时候打破规则。
           </p>
           <p className="font-mono text-xs text-[#00FF00]">
-            ■ 保持对新方法的开放态度。重要的是问题本身。
+            ■ 新工具值得尝试，但工具不能替代判断。
           </p>
         </div>
       </section>

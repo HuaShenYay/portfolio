@@ -1,13 +1,9 @@
 import Link from "next/link";
+import { getWorksByCategory } from "@/lib/data";
 
-const works = [
-  { title: "数据花园", description: "古典诗词可视化交互网站。", year: "2024" },
-  { title: "无界书店", description: "本地独立书店电商平台。", year: "2024" },
-  { title: "社区档案", description: "记录本地历史的数字档案网站。", year: "2023" },
-  { title: "极简阅读", description: "专注于长文阅读的网站模板。", year: "2023" },
-];
+export default async function WebDesignPage() {
+  const works = await getWorksByCategory("web-design");
 
-export default function WebDesignPage() {
   return (
     <main className="px-2 py-2">
       <h1 className="text-[#FFFF00] font-serif font-bold text-2xl mb-2">
@@ -15,7 +11,7 @@ export default function WebDesignPage() {
       </h1>
       <div className="rainbow-hr mb-2" />
       <p className="font-mono text-sm text-[#00FF00] mb-4">
-        ► 网页界面设计与前端开发作品。关注信息架构与阅读体验，追求简洁、可用的界面设计。
+        ► 网页界面与前端作品。我关心一个页面怎样组织信息、建立阅读节奏，并让技术退到内容后面。
       </p>
 
       <div className="rainbow-hr" />
@@ -31,9 +27,9 @@ export default function WebDesignPage() {
           </thead>
           <tbody>
             {works.map((w) => (
-              <tr key={w.title}>
+              <tr key={w._id}>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs">
-                  <Link href="#" className="text-[#00FFFF] underline">► {w.title}</Link>
+                  <Link href={`/web-design/${w.slug.current}`} className="text-[#00FFFF] underline">► {w.title}</Link>
                 </td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.description}</td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.year}</td>

@@ -1,13 +1,9 @@
 import Link from "next/link";
+import { getWorksByCategory } from "@/lib/data";
 
-const works = [
-  { title: "机器之梦", description: "AI生成的实验短片，探索机器意识的边界。", year: "2024" },
-  { title: "流动的城市", description: "用生成式AI重构城市景观的影像实验。", year: "2024" },
-  { title: "数据之海", description: "海洋监测数据转译为视觉语言。", year: "2023" },
-  { title: "回声", description: "声音与影像的AI协作创作。", year: "2023" },
-];
+export default async function AIGCFilmsPage() {
+  const works = await getWorksByCategory("aigc-films");
 
-export default function AIGCFilmsPage() {
   return (
     <main className="px-2 py-2">
       <h1 className="text-[#FFFF00] font-serif font-bold text-2xl mb-2">
@@ -15,7 +11,7 @@ export default function AIGCFilmsPage() {
       </h1>
       <div className="rainbow-hr mb-2" />
       <p className="font-mono text-sm text-[#00FF00] mb-4">
-        ► 人工智能生成的影像作品与实验短片。在算法与叙事的交汇处，探索影像创作的新可能。
+        ► 这里收录生成式影像与实验短片。我把模型当作会制造意外的材料，而不是替我完成表达的机器。
       </p>
 
       <div className="rainbow-hr" />
@@ -31,9 +27,9 @@ export default function AIGCFilmsPage() {
           </thead>
           <tbody>
             {works.map((w) => (
-              <tr key={w.title}>
+              <tr key={w._id}>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs">
-                  <Link href="#" className="text-[#00FFFF] underline">► {w.title}</Link>
+                  <Link href={`/aigc-films/${w.slug.current}`} className="text-[#00FFFF] underline">► {w.title}</Link>
                 </td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.description}</td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.year}</td>

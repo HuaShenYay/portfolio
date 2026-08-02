@@ -1,14 +1,9 @@
 import Link from "next/link";
+import { getWorksByCategory } from "@/lib/data";
 
-const works = [
-  { title: "消失的信号", description: "一部关于信息过载时代的短篇小说。", year: "2024" },
-  { title: "城市边缘", description: "散文集，记录城市边缘地带的观察与思考。", year: "2024" },
-  { title: "午夜图书馆", description: "组诗，关于阅读、记忆与遗忘。", year: "2023" },
-  { title: "数字废墟", description: "长篇科幻小说连载。", year: "2023" },
-  { title: "致未来的信", description: "书信体散文。写给尚未出生的人。", year: "2022" },
-];
+export default async function LiteraturePage() {
+  const works = await getWorksByCategory("literature");
 
-export default function LiteraturePage() {
   return (
     <main className="px-2 py-2">
       <h1 className="text-[#FFFF00] font-serif font-bold text-2xl mb-2">
@@ -16,7 +11,7 @@ export default function LiteraturePage() {
       </h1>
       <div className="rainbow-hr mb-2" />
       <p className="font-mono text-sm text-[#00FF00] mb-4">
-        ► 小说、诗歌、散文与批评写作。文字是时间的容器，语言是思想的边界。
+        ► 小说、诗歌、散文与批评写作。我在这里保存句子、人物、观察，以及还没有找到归处的片段。
       </p>
 
       <div className="rainbow-hr" />
@@ -32,9 +27,9 @@ export default function LiteraturePage() {
           </thead>
           <tbody>
             {works.map((w) => (
-              <tr key={w.title}>
+              <tr key={w._id}>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs">
-                  <Link href="#" className="text-[#00FFFF] underline">► {w.title}</Link>
+                  <Link href={`/literature/${w.slug.current}`} className="text-[#00FFFF] underline">► {w.title}</Link>
                 </td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.description}</td>
                 <td className="border border-[#00FFFF] px-2 py-1 font-mono text-xs text-[#00FF00]">{w.year}</td>

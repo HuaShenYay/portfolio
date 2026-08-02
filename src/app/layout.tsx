@@ -4,8 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "★~ 我的创作空间 ~★ — 文学·影像·设计·数字人文",
-  description: "个人创作主页 — GeoCities风格",
+  title: "HSY / 我的创作空间",
+  description: "文学、影像、网站设计与数字人文组成的个人创作档案。",
 };
 
 export default function RootLayout({
@@ -14,12 +14,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
-      <body className="bg-[#000033] text-[#00FF00] font-mono text-sm stars-bg">
-        <div className="max-w-4xl mx-auto px-4">
-          <Navbar />
-          <main className="py-4">{children}</main>
-          <Footer />
+    <html lang="zh-CN" suppressHydrationWarning>
+      <body>
+        <a className="skip-link" href="#main-content">
+          跳到主要内容
+        </a>
+        <div className="space-shell">
+          <div className="interface-frame">
+            <Navbar />
+            <div id="main-content">{children}</div>
+            <Footer />
+          </div>
         </div>
       </body>
     </html>
